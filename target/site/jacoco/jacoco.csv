@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+tp-foyer,tn.esprit.tpfoyer,TpFoyerApplication,8,0,0,0,3,0,2,0,2,0
+tp-foyer,tn.esprit.tpfoyer.Control,ChambreRestController,37,0,0,0,11,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.Control,EtudiantRestController,32,0,0,0,10,0,5,0,5,0
+tp-foyer,tn.esprit.tpfoyer.Control,FoyerRestController,32,0,0,0,10,0,5,0,5,0
+tp-foyer,tn.esprit.tpfoyer.Service,ChambreServiceImpl,33,0,0,0,7,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.Service,FoyerServiceImpl,28,0,0,0,6,0,5,0,5,0
+tp-foyer,tn.esprit.tpfoyer.Service,EtudiantServiceImpl,0,28,0,0,0,6,0,5,0,5
+tp-foyer,tn.esprit.tpfoyer.entities,TypeChambre,21,0,0,0,2,0,1,0,1,0
+tp-foyer,tn.esprit.tpfoyer.config,ConfigAOP,40,0,0,0,13,0,5,0,5,0
