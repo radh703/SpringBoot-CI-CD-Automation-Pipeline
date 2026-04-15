@@ -1,4 +1,4 @@
-
+# SpringBoot CI/CD Automation Pipeline
 
 This is the backend for a student residence management system built with Spring Boot. It handles foyers, students, and rooms — and comes with a proper DevOps setup so it's easy to run locally or deploy anywhere.
 
