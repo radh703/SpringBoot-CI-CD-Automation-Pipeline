@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.tpfoyer.Repository.EtudiantRepository;
 import tn.esprit.tpfoyer.Service.EtudiantServiceImpl;
 import tn.esprit.tpfoyer.entities.Etudiant;
@@ -18,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class EtudiantServiceImplTest {
 
     @Mock
@@ -31,8 +30,7 @@ public class EtudiantServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        // Initialize the Etudiant object for testing
+        // Reusable test fixture shared by all unit tests
         etudiant = new Etudiant();
         etudiant.setNomEt("Radhwen");
         etudiant.setPrenomEt("Essefi");
@@ -47,7 +45,7 @@ public class EtudiantServiceImplTest {
         when(etudiantRepository.save(any(Etudiant.class))).thenReturn(etudiant);
 
         // Act
-        Etudiant savedEtudiant = etudiantServiceImpl.addetudiant(etudiant);
+        Etudiant savedEtudiant = etudiantServiceImpl.addEtudiant(etudiant);
 
         // Assert
         assertNotNull(savedEtudiant);
@@ -61,7 +59,7 @@ public class EtudiantServiceImplTest {
         when(etudiantRepository.findAll()).thenReturn(List.of(etudiant));
 
         // Act
-        List<Etudiant> etudiants = etudiantServiceImpl.retiveAlletudiants();
+        List<Etudiant> etudiants = etudiantServiceImpl.retrieveAllEtudiants();
 
         // Assert
         assertNotNull(etudiants);
@@ -76,7 +74,7 @@ public class EtudiantServiceImplTest {
         when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.of(etudiant));
 
         // Act
-        Etudiant retrievedEtudiant = etudiantServiceImpl.retriveetudiant(etudiantId);
+        Etudiant retrievedEtudiant = etudiantServiceImpl.retrieveEtudiant(etudiantId);
 
         // Assert
         assertNotNull(retrievedEtudiant);
@@ -90,7 +88,7 @@ public class EtudiantServiceImplTest {
         when(etudiantRepository.save(any(Etudiant.class))).thenReturn(etudiant);
 
         // Act
-        Etudiant updatedEtudiant = etudiantServiceImpl.modifyetudiant(etudiant);
+        Etudiant updatedEtudiant = etudiantServiceImpl.modifyEtudiant(etudiant);
 
         // Assert
         assertNotNull(updatedEtudiant);
@@ -104,7 +102,7 @@ public class EtudiantServiceImplTest {
         doNothing().when(etudiantRepository).deleteById(anyLong());
 
         // Act
-        etudiantServiceImpl.removeetudiant(1L);
+        etudiantServiceImpl.removeEtudiant(1L);
 
         // Assert
         verify(etudiantRepository, times(1)).deleteById(anyLong());

@@ -16,17 +16,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ConfigAOP {
 
-    @Before("execution(* tn.esprit.tpfoyer.Service.*.retive*())")
+    @Before("execution(* tn.esprit.tpfoyer.Service.*.retrieve*(..))")
     public void logMethodEntry(JoinPoint joinPoint) {
         String name = joinPoint.getSignature().getName();
-        log.info("Bienvenue dans le service  " + name + " : ");
+        log.info("Entering service method: {}", name);
     }
 
 
     @After("execution(* tn.esprit.tpfoyer.Service.*.add*(..))")
     public void logMethodOut(JoinPoint joinPoint) {
         String name = joinPoint.getSignature().getName();
-        log.info("Execution reussie" + name + " : ");
+        log.info("Method executed successfully: {}", name);
     }
 
     @Around("execution(* tn.esprit.tpfoyer.Service.*.*(..))")
@@ -38,7 +38,7 @@ public class ConfigAOP {
 
         long elapsedTime= System.currentTimeMillis() -start;
 
-        log.info("Methodexecutiontime: " + elapsedTime+ " milliseconds.");
+        log.info("Method execution time: {} milliseconds.", elapsedTime);
         return obj;
     }
 

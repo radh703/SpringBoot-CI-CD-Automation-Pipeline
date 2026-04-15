@@ -2,10 +2,11 @@ package tn.esprit.tpfoyer.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Entity
 @Getter
@@ -18,7 +19,11 @@ public class Foyer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long idFoyer;
 
+    @NotBlank(message = "nomFoyer is required")
+    @Size(max = 120, message = "nomFoyer must be at most 120 characters")
     String nomFoyer;
+
+    @Positive(message = "capaciteFoyer must be positive")
     long capaciteFoyer;
 
 

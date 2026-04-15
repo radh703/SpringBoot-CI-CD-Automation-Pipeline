@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tpfoyer-ingress
+  namespace: tpfoyer
+spec:
+  rules:
+    - host: tpfoyer.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tpfoyer-app
+                port:
+                  number: 8089

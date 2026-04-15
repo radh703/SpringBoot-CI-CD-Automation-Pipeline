@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tpfoyer-app
+  namespace: tpfoyer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tpfoyer-app
+  template:
+    metadata:
+      labels:
+        app: tpfoyer-app
+    spec:
+      containers:
+        - name: tpfoyer-app
+          image: tp-foyer:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8089
+          envFrom:
+            - configMapRef:
+                name: tpfoyer-config
+            - secretRef:
+                name: tpfoyer-secrets
+          livenessProbe:
+            httpGet:
+              path: /tpfoyer/actuator/health/liveness
+              port: 8089
+            initialDelaySeconds: 45
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /tpfoyer/actuator/health/readiness
+              port: 8089
+            initialDelaySeconds: 25
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

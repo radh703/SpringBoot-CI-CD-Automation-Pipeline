@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tpfoyer-config
+  namespace: tpfoyer
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpfoyerdb?createDatabaseIfNotExist=true
+  SPRING_DATASOURCE_USERNAME: root

@@ -5,31 +5,36 @@ import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.Repository.ChambreRepository;
 import tn.esprit.tpfoyer.entities.Chambre;
 import tn.esprit.tpfoyer.entities.TypeChambre;
+import tn.esprit.tpfoyer.exception.ResourceNotFoundException;
 
 import java.util.List;
 @Service
 @AllArgsConstructor
 public class ChambreServiceImpl implements  IChambreService {
-  ChambreRepository chambrerepository;
+  private final ChambreRepository chambreRepository;
 
 
-  public List<Chambre> retiveAllChambres() {
-    return chambrerepository.findAll();
+  @Override
+  public List<Chambre> retrieveAllChambres() {
+    return chambreRepository.findAll();
   }
 
 
-  public Chambre retriveChambre(Long idChambre) {
-    return chambrerepository.findById(idChambre).get();
+  @Override
+  public Chambre retrieveChambre(Long idChambre) {
+    return chambreRepository.findById(idChambre)
+        .orElseThrow(() -> new ResourceNotFoundException("Chambre not found with id: " + idChambre));
   }
 
 
+  @Override
   public Chambre addChambre(Chambre c) {
-    return chambrerepository.save(c);
+    return chambreRepository.save(c);
   }
 
   @Override
   public void removeChambre(Long idChambre) {
-    chambrerepository.deleteById(idChambre);
+    chambreRepository.deleteById(idChambre);
   }
 
 
@@ -37,17 +42,13 @@ public class ChambreServiceImpl implements  IChambreService {
 
   @Override
   public Chambre modifyChambre(Chambre chambre) {
-    return chambrerepository.save(chambre);
+    return chambreRepository.save(chambre);
   }
 
 
-
-
-
-    public List<Chambre> recupererChambresSelonType (TypeChambre tc){
-
-    return chambrerepository.findAllByTypeC(tc);
-    }
-
+  @Override
+  public List<Chambre> retrieveChambresByType(TypeChambre tc) {
+    return chambreRepository.findAllByTypeC(tc);
+  }
 
 }

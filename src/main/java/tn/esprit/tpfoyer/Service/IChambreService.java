@@ -6,17 +6,15 @@ import tn.esprit.tpfoyer.entities.TypeChambre;
 import java.util.List;
 
 public interface IChambreService {
-  public List<Chambre> retiveAllChambres();
+  List<Chambre> retrieveAllChambres();
 
-  public Chambre retriveChambre(Long idChambre);
+  Chambre retrieveChambre(Long idChambre);
 
-  public Chambre addChambre(Chambre c);
+  Chambre addChambre(Chambre chambre);
 
-  public void removeChambre(Long idChambre);
+  void removeChambre(Long idChambre);
 
-  public Chambre modifyChambre(Chambre chambre);
+  Chambre modifyChambre(Chambre chambre);
 
-
-
-  public List<Chambre> recupererChambresSelonType(TypeChambre tc);
+  List<Chambre> retrieveChambresByType(TypeChambre typeChambre);
 }

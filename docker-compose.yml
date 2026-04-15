@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
     container_name: tpfoyer-db
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"   # Non-empty password
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
       MYSQL_DATABASE: tpfoyerdb
     ports:
       - "3306:3306"
@@ -14,21 +12,35 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   app:
-    image: radwanessefi/tp-foyer:1.0.162
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tp-foyer:local
     container_name: tpfoyer-app
     ports:
       - "8089:8089"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tpfoyerdb?createDatabaseIfNotExist=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpfoyerdb?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-root}
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
     restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --spider http://localhost:8089/tpfoyer/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
 
 networks:
   app-network:

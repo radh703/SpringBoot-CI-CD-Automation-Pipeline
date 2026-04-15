@@ -4,34 +4,40 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.Repository.EtudiantRepository;
 import tn.esprit.tpfoyer.entities.Etudiant;
+import tn.esprit.tpfoyer.exception.ResourceNotFoundException;
 
 import java.util.List;
 @Service
 @AllArgsConstructor
 public class EtudiantServiceImpl implements IEtudiantService{
-  EtudiantRepository etudiantrepository;
+  private final EtudiantRepository etudiantRepository;
 
-  public List<Etudiant> retiveAlletudiants() {
-    return etudiantrepository.findAll();
+  @Override
+  public List<Etudiant> retrieveAllEtudiants() {
+    return etudiantRepository.findAll();
   }
 
 
-  public Etudiant retriveetudiant(Long idEtudiant) {
-    return etudiantrepository.findById(idEtudiant).get();
+  @Override
+  public Etudiant retrieveEtudiant(Long idEtudiant) {
+    return etudiantRepository.findById(idEtudiant)
+        .orElseThrow(() -> new ResourceNotFoundException("Etudiant not found with id: " + idEtudiant));
   }
 
 
-  public Etudiant addetudiant(Etudiant e) {
-    return etudiantrepository.save(e);
+  @Override
+  public Etudiant addEtudiant(Etudiant e) {
+    return etudiantRepository.save(e);
   }
 
 
-  public void removeetudiant(Long idEtudiant) {
-    etudiantrepository.deleteById(idEtudiant);
+  @Override
+  public void removeEtudiant(Long idEtudiant) {
+    etudiantRepository.deleteById(idEtudiant);
   }
 
   @Override
-  public Etudiant modifyetudiant(Etudiant etudiant) {
-    return etudiantrepository.save(etudiant);
+  public Etudiant modifyEtudiant(Etudiant etudiant) {
+    return etudiantRepository.save(etudiant);
   }
 }
